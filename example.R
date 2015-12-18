@@ -39,7 +39,7 @@ if (generate_pooled_data){
 randn <- function(n, m) matrix(rnorm(n*m), nrow=n, ncol=m)
 rand_times <- function(n) 1.2 * runif(n)
 
-data <- list(M_bg = M_bg, M_biom = M_biom)
+data <- list(M_bg = M_bg, M_biom = M_biom, nu = 3)
 
 i <- 0
 for (g in c("NM", "NW", "DM", "DW")){
@@ -54,7 +54,7 @@ for (g in c("NM", "NW", "DM", "DW")){
     if (o == "cen") data[[names[4]]] <- runif(get(names[1])) * rweibull(get(names[1]), alfa[i], exp(-(data[[names[2]]] %*% bbg[[i]] + data[[names[3]]] %*% bbiom[[i]])/alfa[i]))
   }
 }
-data1 <- list(M_bg = M_bg, M_biom = M_biom)
+data1 <- list(M_bg = M_bg, M_biom = M_biom, nu = 3)
 data1$Nobs <- data$NobsNM; data1$Ncen <- data$NcenNM;
 data1$yobs <- data$yobsNM; data1$ycen <- data$ycenNM;
 data1$Xobs_bg <- data$Xobs_bgNM; data1$Xcen_bg <- data$Xcen_bgNM;

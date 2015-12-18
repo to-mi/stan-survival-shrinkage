@@ -21,6 +21,13 @@ Contents
  * `wei_gau.stan`: Single-group model with Gaussian prior on candidate biomarkers.
  * `wei_bg.stan`: Single-group model with only established risk factors.
 
+Updates
+-------
+
+2015-12-18: Change the Cauchy distributions defining local shrinkage parameters in the horseshoe prior to t-distributions that allow setting the degress of freedom nu (Cauchy is nu = 1). nu > 1 can be computationally more stable (see [Piironen and Vehtari, 2015][]).
+
+  [Piironen and Vehtari, 2015]: http://arxiv.org/abs/1508.02502
+
 Reference
 ---------
 

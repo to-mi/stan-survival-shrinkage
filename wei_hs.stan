@@ -20,12 +20,12 @@ functions {
     return res;
   }
 
-  vector hs_prior_lp(real r1_global, real r2_global, vector r1_local, vector r2_local) {
+  vector hs_prior_lp(real r1_global, real r2_global, vector r1_local, vector r2_local, real nu) {
     r1_global ~ normal(0.0, 1.0);
     r2_global ~ inv_gamma(0.5, 0.5);
 
     r1_local ~ normal(0.0, 1.0);
-    r2_local ~ inv_gamma(0.5, 0.5);
+    r2_local ~ inv_gamma(0.5 * nu, 0.5 * nu);
 
     return (r1_global * sqrt(r2_global)) * r1_local .* sqrt_vec(r2_local);
   }
@@ -49,6 +49,7 @@ data {
   matrix[Ncen, M_bg] Xcen_bg;
   matrix[Nobs, M_biom] Xobs_biom;
   matrix[Ncen, M_biom] Xcen_biom;
+  real<lower=1> nu;
 }
 
 transformed data {
@@ -80,7 +81,7 @@ transformed parameters {
   vector[M_bg] beta_bg;
   real alpha;
 
-  beta_biom <- hs_prior_lp(tau_s1_biom_raw, tau_s2_biom_raw, tau1_biom_raw, tau2_biom_raw) .* beta_biom_raw;
+  beta_biom <- hs_prior_lp(tau_s1_biom_raw, tau_s2_biom_raw, tau1_biom_raw, tau2_biom_raw, nu) .* beta_biom_raw;
   beta_bg <- bg_prior_lp(tau_s_bg_raw, tau_bg_raw) .* beta_bg_raw;
   alpha <- exp(tau_al * alpha_raw);
 }
